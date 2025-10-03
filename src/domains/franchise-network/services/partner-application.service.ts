@@ -1,4 +1,4 @@
-import { supabase } from '@/shared-kernel/infrastructure/supabase/supabase-client';
+import { supabase } from '../../../shared-kernel/supabase/client';
 import { 
   PartnerApplicationRequest, 
   PartnerApplicationResponse,

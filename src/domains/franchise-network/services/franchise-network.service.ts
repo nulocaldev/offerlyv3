@@ -293,11 +293,20 @@ export class FranchiseNetworkService {
         return { success: false, error: refundError.message };
       }
 
+      // Get current balance and update
+      const { data: currentBalance } = await supabase
+        .from('gem_balances')
+        .select('total_gems')
+        .eq('user_id', originalTx.sender_id)
+        .single();
+
+      const newTotal = (currentBalance?.total_gems || 0) + originalTx.amount;
+
       // Update gem balance
       await supabase
         .from('gem_balances')
         .update({ 
-          total_gems: supabase.raw(`total_gems + ${originalTx.amount}`),
+          total_gems: newTotal,
           last_updated: new Date().toISOString()
         })
         .eq('user_id', originalTx.sender_id);

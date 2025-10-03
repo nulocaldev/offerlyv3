@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { supabase } from '@/shared-kernel/infrastructure/supabase/supabase-client';
+import { supabase } from '../supabase/client';
 import { AuthUser, AuthContextType, SignInCredentials, SignUpData } from './types';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);

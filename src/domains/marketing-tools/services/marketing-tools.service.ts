@@ -417,10 +417,19 @@ export class MarketingToolsService {
   }
 
   private async reducePrizeInventory(prize_id: string): Promise<void> {
+    // Get current remaining count and decrement
+    const { data: currentPrize } = await supabase
+      .from('prize_configurations')
+      .select('remaining')
+      .eq('id', prize_id)
+      .single();
+
+    const newRemaining = Math.max(0, (currentPrize?.remaining || 0) - 1);
+
     await supabase
       .from('prize_configurations')
       .update({ 
-        remaining: supabase.raw('remaining - 1'),
+        remaining: newRemaining,
         updated_at: new Date().toISOString()
       })
       .eq('id', prize_id);
